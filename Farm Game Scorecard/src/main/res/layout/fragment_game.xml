@@ -1,0 +1,102 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Name:"
+            android:id="@+id/textView3" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:layout_weight="1"
+            android:hint="Enter Player Name"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Total:"
+            android:id="@+id/textView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="$ Amount"
+            android:id="@+id/textView2"
+            android:textStyle="bold|italic"
+            android:gravity="right"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <include android:id="@+id/item_hay"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_grain"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_fruit"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_livestock"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_tractor"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_harvester"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_toppenish"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_cascade"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_rattlesnake"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_ahtanum"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_p10k"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_p5k"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_p1k"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_10000"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_5000"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_1000"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_500"
+                layout="@layout/item_scoring" />
+            <include android:id="@+id/item_100"
+                layout="@layout/item_scoring" />
+            </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
