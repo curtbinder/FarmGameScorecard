@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
+
 public class ScoreProvider extends ContentProvider {
 
     private MainDatabase data;
