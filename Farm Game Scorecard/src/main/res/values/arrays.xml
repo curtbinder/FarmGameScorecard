@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="itemTitles">
+        <item>Hay</item>
+        <item>Grain</item>
+        <item>Fruit</item>
+        <item>Cows</item>
+        <item>Tractor</item>
+        <item>Harvestor</item>
+        <item>Toppenish</item>
+        <item>Cascade</item>
+        <item>Rattlesnake</item>
+        <item>Ahtanum</item>
+        <item>Promissory 10K</item>
+        <item>Promissory 5K</item>
+        <item>Promissory 1K</item>
+        <item>10000</item>
+        <item>5000</item>
+        <item>1000</item>
+        <item>500</item>
+        <item>100</item>
+    </string-array>
+    <string-array name="itemSubTitles">
+        <item>Quantity of 10 acre pieces</item>
+        <item>Quantity of 10 acre pieces</item>
+        <item>Quantity of 5 acre pieces</item>
+        <item>Quantity of 10 head pieces</item>
+        <item>Quantity of tractors</item>
+        <item>Quantity of harvestors</item>
+        <item>Ownership of Toppenish Ridge</item>
+        <item>Ownership of Cascade Ridge</item>
+        <item>Ownership of Rattlesnake Ridge</item>
+        <item>Ownership of Ahtanum Ridge</item>
+        <item>Quantity of $10K promissory notes</item>
+        <item>Quantity of $5K promissory notes</item>
+        <item>Quantity of $1K promissory notes</item>
+        <item>Quantity of $10K bills</item>
+        <item>Quantity of $5K bills</item>
+        <item>Quantity of $1K bills</item>
+        <item>Quantity of $500 bills</item>
+        <item>Quantity of $100 bills</item>
+    </string-array>
+    <integer-array name="itemFieldValues">
+        <item>20000</item>
+        <item>20000</item>
+        <item>25000</item>
+        <item>5000</item>
+        <item>10000</item>
+        <item>10000</item>
+        <item>25000</item>
+        <item>20000</item>
+        <item>15000</item>
+        <item>10000</item>
+        <item>-10000</item>
+        <item>-5000</item>
+        <item>-1000</item>
+        <item>10000</item>
+        <item>5000</item>
+        <item>1000</item>
+        <item>500</item>
+        <item>100</item>
+    </integer-array>
+</resources>

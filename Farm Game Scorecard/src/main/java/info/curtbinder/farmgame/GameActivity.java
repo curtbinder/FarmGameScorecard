@@ -10,11 +10,6 @@ import android.app.FragmentTransaction;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 public class GameActivity extends Activity implements ActionBar.TabListener {
 
@@ -33,10 +28,18 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
      */
     ViewPager mViewPager;
 
+    int[] fieldValues;
+    String[] fieldTitles;
+    String[] fieldSubTitles;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        fieldValues = getResources().getIntArray(R.array.itemFieldValues);
+        fieldTitles = getResources().getStringArray(R.array.itemTitles);
+        fieldSubTitles = getResources().getStringArray(R.array.itemSubTitles);
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -72,27 +75,6 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
                             .setTabListener(this));
         }
     }
-
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -152,48 +134,5 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
             return null;
         }
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-//    public static class PlaceholderFragment extends Fragment {
-//        /**
-//         * The fragment argument representing the section number for this
-//         * fragment.
-//         */
-//        private static final String ARG_SECTION_NUMBER = "section_number";
-//        private int sectionNumber = 0;
-//
-//        /**
-//         * Returns a new instance of this fragment for the given section
-//         * number.
-//         */
-//        public static PlaceholderFragment newInstance(int sectionNumber) {
-//            PlaceholderFragment fragment = new PlaceholderFragment(sectionNumber);
-////            Bundle args = new Bundle();
-////            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-////            fragment.setArguments(args);
-//            return fragment;
-//        }
-//
-//        public PlaceholderFragment(int sectionNumber) {
-//            this.sectionNumber = sectionNumber;
-//        }
-//
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                Bundle savedInstanceState) {
-//            int layout;
-//            Log.d("PlaceholderFragment", "Section: " + sectionNumber);
-//            if(sectionNumber == 0) {
-//                layout = R.layout.fragment_summary;
-//            } else {
-//                layout = R.layout.fragment_game;
-//            }
-//            View rootView = inflater.inflate(layout, container, false);
-//            // do something with the layout
-//            return rootView;
-//        }
-//    }
 
 }
