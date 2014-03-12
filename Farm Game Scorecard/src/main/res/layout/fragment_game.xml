@@ -1,3 +1,12 @@
+<!--
+  ~ Copyright (c) 2014 by Curt Binder (http://curtbinder.info)
+  ~
+  ~ This work is licensed under the Creative Commons
+  ~ Attribution-ShareAlike 4.0 International License.
+  ~ To view a copy of this license, visit
+  ~ http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+  -->
+
 <LinearLayout
     android:orientation="vertical"
     android:layout_width="fill_parent"
@@ -14,15 +23,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Name:"
-            android:id="@+id/textView3" />
+            android:text="@string/label_name" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editText"
+            android:id="@+id/editPlayerName"
             android:layout_weight="1"
-            android:hint="Enter Player Name"
+            android:hint="@string/label_name_hint"
             android:gravity="center"
             android:singleLine="true" />
     </LinearLayout>
@@ -37,8 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Total:"
-            android:id="@+id/textView" />
+            android:text="@string/label_total" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,8 +65,9 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
 
             <include android:id="@+id/item_hay"
                 layout="@layout/item_scoring" />

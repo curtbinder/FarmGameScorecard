@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2014 by Curt Binder (http://curtbinder.info)
+ *
+ * This work is licensed under the Creative Commons
+ * Attribution-ShareAlike 4.0 International License.
+ * To view a copy of this license, visit
+ * http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+ */
+
 package info.curtbinder.farmgame.db;
 
 import android.content.ContentProvider;
@@ -6,9 +15,17 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
+import java.sql.SQLException;
+import java.util.Locale;
 
+import info.curtbinder.farmgame.R;
+
+/**
+ * Created by binder on 2/26/14
+ */
 public class ScoreProvider extends ContentProvider {
 
     private MainDatabase data;
@@ -58,14 +75,18 @@ public class ScoreProvider extends ContentProvider {
         // Only delete games from the interface. Players get deleted after the games get deleted
         switch ( sUriMatcher.match(uri) ) {
             case CODE_GAMES:
-                // TODO delete all games
                 // delete from GamesTable;
+                rowsDeleted = db.delete(GamesTable.TABLE_NAME, "1", null);
                 // delete from PlayersTable;
+                rowsDeleted += db.delete(PlayersTable.TABLE_NAME, "1", null);
                 break;
             case CODE_GAMES_ID:
-                // TODO delete a specific game
                 // delete from GamesTable where gameid = ID
+                rowsDeleted = db.delete(GamesTable.TABLE_NAME, GamesTable.COL_ID + "=?",
+                        new String[] { uri.getLastPathSegment() } );
                 // delete from PlayersTable where gameid = ID
+                rowsDeleted += db.delete(PlayersTable.TABLE_NAME, PlayersTable.COL_GAMEID + "=?",
+                        new String[] { uri.getLastPathSegment() } );
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -99,10 +120,7 @@ public class ScoreProvider extends ContentProvider {
         switch ( sUriMatcher.match(uri) ) {
             case CODE_GAMES:
                 id = db.insert(GamesTable.TABLE_NAME, null, values);
-                /*
-                TODO perform bulk insert in Players table of the 6 players
-                and their default values
-                */
+                insertGamePlayers(db, id);
                 path = PATH_GAMES;
                 break;
             default:
@@ -110,6 +128,47 @@ public class ScoreProvider extends ContentProvider {
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return Uri.parse(path + "/" + id);
+    }
+
+    private ContentValues getDefaultPlayerValues(long gameId, int id) {
+        ContentValues cv = new ContentValues();
+        cv.put(PlayersTable.COL_GAMEID, gameId);
+        //cv.put(PlayersTable.COL_NAME, String.format(Locale.getDefault(),
+        //                            getContext().getString(R.string.title_player_format),
+        //                            id));
+
+        cv.put(PlayersTable.COL_PLAYERID, id);
+        cv.put(PlayersTable.COL_TOTAL, 0);
+        /*
+        cv.put(PlayersTable.COL_HAY, 0);
+        cv.put(PlayersTable.COL_GRAIN, 0);
+        cv.put(PlayersTable.COL_FRUIT, 0);
+        cv.put(PlayersTable.COL_LIVESTOCK, 0);
+        cv.put(PlayersTable.COL_TRACTOR, 0);
+        cv.put(PlayersTable.COL_HARVESTOR, 0);
+        cv.put(PlayersTable.COL_TOPPENISH, 0);
+        cv.put(PlayersTable.COL_CASCADE, 0);
+        cv.put(PlayersTable.COL_RATTLESNAKE, 0);
+        cv.put(PlayersTable.COL_AHTANUM, 0);
+        cv.put(PlayersTable.COL_FRUIT, 0);
+        cv.put(PlayersTable.COL_P10K, 0);
+        cv.put(PlayersTable.COL_P5K, 0);
+        cv.put(PlayersTable.COL_P1K, 0);
+        cv.put(PlayersTable.COL_10000, 0);
+        cv.put(PlayersTable.COL_5000, 0);
+        cv.put(PlayersTable.COL_1000, 0);
+        cv.put(PlayersTable.COL_500, 0);
+        cv.put(PlayersTable.COL_100, 0);
+        */
+        return cv;
+    }
+
+    private void insertGamePlayers(SQLiteDatabase db, long gameId) {
+        //db.beginTransaction();
+        for ( int i = 0; i < 6; i++ ) {
+            db.insert(PlayersTable.TABLE_NAME, null, getDefaultPlayerValues(gameId, i+1));
+        }
+        //db.endTransaction();
     }
 
     @Override
@@ -121,14 +180,54 @@ public class ScoreProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
             String[] selectionArgs, String sortOrder) {
-        // TODO: Implement this to handle query requests from clients.
-        throw new UnsupportedOperationException("Not yet implemented");
+        String table = null;
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+        switch ( sUriMatcher.match(uri) ) {
+            case CODE_GAMES:
+                // query all games, sorted descending, most recent first
+                table = GamesTable.TABLE_NAME;
+                break;
+            case CODE_GAMES_ID:
+                // query 1 game
+                table = GamesTable.TABLE_NAME;
+                qb.appendWhere(GamesTable.COL_ID + "="
+                    + uri.getLastPathSegment());
+                break;
+            case CODE_PLAYERS:
+                // query all players for a specified game
+                table = PlayersTable.TABLE_NAME;
+                break;
+            case CODE_PLAYERS_ID:
+                // query 1 player for a specified game
+                table = PlayersTable.TABLE_NAME;
+                qb.appendWhere(PlayersTable.COL_PLAYERID + "="
+                    + uri.getLastPathSegment());
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown URI: " + uri);
+        }
+        qb.setTables(table);
+        SQLiteDatabase db = data.getWritableDatabase();
+        Cursor c = qb.query(db, projection, selection, selectionArgs,
+                            null, null, sortOrder, null);
+        c.setNotificationUri(getContext().getContentResolver(), uri);
+        return c;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection,
             String[] selectionArgs) {
-        // TODO: Implement this to handle requests to update one or more rows.
-        throw new UnsupportedOperationException("Not yet implemented");
+        int rowsUpdated = 0;
+        SQLiteDatabase db = data.getWritableDatabase();
+        switch ( sUriMatcher.match(uri) ) {
+            case CODE_PLAYERS:
+                rowsUpdated = db.update(PlayersTable.TABLE_NAME, values,
+                        selection, selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown URI: " + uri);
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return rowsUpdated;
     }
 }

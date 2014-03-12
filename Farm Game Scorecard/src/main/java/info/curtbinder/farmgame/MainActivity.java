@@ -1,17 +1,33 @@
+/*
+ * Copyright (c) 2014 by Curt Binder (http://curtbinder.info)
+ *
+ * This work is licensed under the Creative Commons
+ * Attribution-ShareAlike 4.0 International License.
+ * To view a copy of this license, visit
+ * http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+ */
+
 package info.curtbinder.farmgame;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import info.curtbinder.farmgame.db.GamesTable;
+import info.curtbinder.farmgame.db.ScoreProvider;
+
+/**
+ * Created by binder on 2/26/14
+ */
 public class MainActivity extends Activity implements Button.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -35,20 +51,36 @@ public class MainActivity extends Activity implements Button.OnClickListener {
     }
 
     private void startNewGame() {
-        // prompt for the options
-        // display popup where user can pick the number of people along
-        // with the names
-
-        // launch the game with the options
-        launchNewGame();
+        long gameId = createNewGame();
+        addPlayersToGame(gameId);
+        // launch a new game, pass in gameid to the activity
+        launchNewGame(gameId);
     }
 
-    private void launchNewGame() {
+    private long createNewGame() {
+        // create new game in GamesTable with current date and time
+        // return the gameID
+        ContentValues cv = new ContentValues();
+        cv.put(GamesTable.COL_DATE, DateFormat.getDateInstance().format(new Date()));
+        Uri newGameUri = getContentResolver().insert(
+                Uri.parse(ScoreProvider.CONTENT_URI + "/" + ScoreProvider.PATH_GAMES),
+                cv);
+        long gameId = Long.parseLong(newGameUri.getLastPathSegment());
+        Log.d("MainActivity", "New Game ID: " + gameId);
+        return gameId;
+    }
+
+    private void addPlayersToGame(long gameId) {
+        // insert 6 players into PlayersTable with default values
+    }
+
+    private void launchNewGame(long gameId) {
         Intent i = new Intent(MainActivity.this, GameActivity.class);
+        i.putExtra(GameActivity.GAMEID, gameId);
         startActivity(i);
     }
 
-//    @Overrideß
+//    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //
 //        // Inflate the menu; this adds items to the action bar if it is present.

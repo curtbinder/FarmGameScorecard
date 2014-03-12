@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2014 by Curt Binder (http://curtbinder.info)
+ *
+ * This work is licensed under the Creative Commons
+ * Attribution-ShareAlike 4.0 International License.
+ * To view a copy of this license, visit
+ * http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+ */
+
 package info.curtbinder.farmgame.db;
 
 import android.database.sqlite.SQLiteDatabase;
@@ -10,7 +19,7 @@ public class GamesTable {
 
     public static final String TABLE_NAME = "games";
 
-    public static final String COL_ID = "id";
+    public static final String COL_ID = "_id";
     public static final String COL_DATE = "creation";
     public static final String COL_NAME = "name";
 
@@ -24,8 +33,8 @@ public class GamesTable {
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public static void onCreate(SQLiteDatabase db) {
-        Log.d("GamesTable", "Create: " + CREATE_TABLE);
-        //db.execSQL( CREATE_TABLE );
+        //Log.d("GamesTable", "Create: " + CREATE_TABLE);
+        db.execSQL( CREATE_TABLE );
     }
 
     public static void onUpgrade (

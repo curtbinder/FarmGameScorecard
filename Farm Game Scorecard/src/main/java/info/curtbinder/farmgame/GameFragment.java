@@ -1,9 +1,23 @@
+/*
+ * Copyright (c) 2014 by Curt Binder (http://curtbinder.info)
+ *
+ * This work is licensed under the Creative Commons
+ * Attribution-ShareAlike 4.0 International License.
+ * To view a copy of this license, visit
+ * http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+ */
+
 package info.curtbinder.farmgame;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +28,22 @@ import android.widget.TextView;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-/**
- * Created by binder on 2/26/14.
- */
-public class GameFragment extends Fragment {
+import info.curtbinder.farmgame.db.PlayersTable;
+import info.curtbinder.farmgame.db.ScoreProvider;
 
-    private int sectionNumber = 0;
+/**
+ * Created by binder on 2/26/14
+ */
+ public class GameFragment extends Fragment {
+
+    private static int NAME_INDEX = 100;
+
+    private int playerId = 0;
 
     private int[] values = new int[Items.values().length];
+    private String name;
     private TextView tvTotalAmount;
+    private EditText editName;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -32,11 +53,34 @@ public class GameFragment extends Fragment {
         return new GameFragment(sectionNumber);
     }
 
-    public GameFragment(int sectionNumber) {
-        this.sectionNumber = sectionNumber;
-        for ( int i = 0; i < values.length; i++ ) {
-            values[i] = 0;
+    public GameFragment(int playerId) {
+        this.playerId = playerId;
+        //loadData();
+    }
+
+    private void loadData() {
+//        for ( int i = 0; i < values.length; i++ ) {
+//            values[i] = 0;
+//        }
+//        Log.d("Game", "loadData");
+        Uri content = Uri.parse(ScoreProvider.CONTENT_URI + "/" +
+                                ScoreProvider.PATH_PLAYERS + "/" + playerId);
+        Cursor c = getActivity().getContentResolver().query(content, null,
+                PlayersTable.COL_GAMEID + "=?",
+                new String[]{Long.toString(((GameActivity) getActivity()).getGameId())}, null);
+        if ( c.moveToFirst() ) {
+            for ( int i = 0; i < values.length; i++ ) {
+                // todo validate data loaded from db
+                int v = c.getInt(c.getColumnIndex(PlayersTable.getColumnFromIndex(i)));
+                Log.d("Game", "Player " + playerId +") Index: " + i + ", Column: " + PlayersTable.getColumnFromIndex(i)
+                        + ", Value: " + v);
+                values[i] = v;
+            }
+            name = c.getString(c.getColumnIndex(PlayersTable.COL_NAME));
+            Log.d("Game", "Player " + playerId +") Column: " + PlayersTable.COL_NAME
+                    + ", Value: " + name);
         }
+        c.close();
     }
 
     @Override
@@ -44,10 +88,16 @@ public class GameFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_game, container, false);
         // do something with the layout
+        loadData();
         findAndUpdateViews(rootView);
         updateDisplayAmount();
         return rootView;
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//    }
 
     private void findAndUpdateViews(View v) {
         tvTotalAmount = (TextView) v.findViewById(R.id.textTotal);
@@ -72,35 +122,74 @@ public class GameFragment extends Fragment {
     }
 
     private void updateLabelsAndAddListener(View v, int fieldId, Items index) {
+        editName = (EditText) v.findViewById(R.id.editPlayerName);
+        if ( name != null ) {
+            if ( ! name.isEmpty() ) {
+                editName.setText(name);
+            }
+        }
+        editName.addTextChangedListener(new TextChangeListener(NAME_INDEX));
         int pos = index.ordinal();
+//        Log.d("Game", "updateLabelsAndAddListener - itemIndex: " + pos);
         RelativeLayout l = (RelativeLayout) v.findViewById(fieldId);
         EditText t = (EditText) l.findViewById(R.id.editValue);
-        t.setText("");
+        String s = "";
+        if ( values[pos] > 0 ) {
+            s = Integer.toString(values[pos]);
+        }
+        t.setText(s);
         t.addTextChangedListener(new TextChangeListener(pos));
         TextView tv = (TextView) l.findViewById(R.id.textTitle);
-        tv.setText(((GameActivity)getActivity()).fieldTitles[pos]);
+        tv.setText(((GameActivity) getActivity()).fieldTitles[pos]);
         tv = (TextView) l.findViewById(R.id.textSubTitle);
-        tv.setText(((GameActivity)getActivity()).fieldSubTitles[pos]);
+        tv.setText(((GameActivity) getActivity()).fieldSubTitles[pos]);
     }
 
     protected void updateDisplayAmount() {
+        Log.d("Game", "Player " + playerId + ") updateDisplayAmount");
         int total = 0;
-        for ( int i : values ) {
+        for ( int i = 0; i < values.length; i++ ) {
             total += values[i];
         }
-        NumberFormat nft = NumberFormat.getCurrencyInstance(Locale.getDefault());
-        nft.setMaximumFractionDigits(0);
-        String s = nft.format(total);
-        tvTotalAmount.setText(s);
+        updateItemValueInTable(PlayersTable.COL_TOTAL, total);
+        tvTotalAmount.setText(GameActivity.getCurrencyFormattedString(total));
+    }
+
+    protected void updatePlayerNameInTable() {
+        //Log.d("Game", "updatePlayerNameInTable");
+        ContentValues cv = new ContentValues();
+        cv.put(PlayersTable.COL_NAME, name);
+        updatePlayersTable(cv);
+    }
+
+    protected void updateItemValueInTable(String column, int value) {
+        //Log.d("Game", "updateItemValueInTable");
+        ContentValues cv = new ContentValues();
+        cv.put(column, value);
+        updatePlayersTable(cv);
+    }
+
+    protected void updatePlayersTable(ContentValues cv) {
+        Log.d("Game", "Player " + playerId + ") updatePlayersTable: " + cv.toString());
+        Uri uri = Uri.parse(ScoreProvider.CONTENT_URI + "/" +
+                            ScoreProvider.PATH_PLAYERS);
+        getActivity().getContentResolver().update(uri, cv,
+                PlayersTable.COL_GAMEID + "=? and " + PlayersTable.COL_PLAYERID + "=?",
+                new String[]{Long.toString(((GameActivity) getActivity()).getGameId()),
+                        Integer.toString(playerId)}
+        );
     }
 
     private class TextChangeListener implements TextWatcher {
         private int index;
         private int fieldValue;
+        //private long fieldId;
 
         public TextChangeListener(int index) {
             this.index = index;
-            this.fieldValue = ((GameActivity)getActivity()).fieldValues[index];
+            if ( index < NAME_INDEX ) {
+                this.fieldValue = ((GameActivity) getActivity()).fieldValues[index];
+            }
         }
 
         @Override
@@ -116,6 +205,17 @@ public class GameFragment extends Fragment {
         @Override
         public void afterTextChanged(Editable editable) {
             String s = editable.toString();
+            if ( this.index == NAME_INDEX ) {
+//                Log.d("Game", index + ") Update Name: " + s);
+                name = s;
+                updatePlayerNameInTable();
+            } else {
+                updateItemValue(s);
+            }
+        }
+
+        private void updateItemValue(String s) {
+//            Log.d("Game", index + ") updateItemValue");
             int total = 0;
             if ( ! s.isEmpty() ) {
                 int qty = Integer.parseInt(s);
@@ -124,6 +224,8 @@ public class GameFragment extends Fragment {
 
             // store the value computed from the quantity
             values[index] = total;
+            updateItemValueInTable(PlayersTable.getColumnFromIndex(index), total);
+            // update the value in the database
             updateDisplayAmount();
         }
     }

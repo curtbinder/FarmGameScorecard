@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2014 by Curt Binder (http://curtbinder.info)
+ *
+ * This work is licensed under the Creative Commons
+ * Attribution-ShareAlike 4.0 International License.
+ * To view a copy of this license, visit
+ * http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+ */
+
 package info.curtbinder.farmgame.db;
 
 import android.content.Context;
@@ -10,7 +19,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MainDatabase extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "farmgames.db";
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
 
     public MainDatabase(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

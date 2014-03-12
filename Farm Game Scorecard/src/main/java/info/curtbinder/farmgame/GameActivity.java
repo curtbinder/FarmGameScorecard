@@ -1,5 +1,15 @@
+/*
+ * Copyright (c) 2014 by Curt Binder (http://curtbinder.info)
+ *
+ * This work is licensed under the Creative Commons
+ * Attribution-ShareAlike 4.0 International License.
+ * To view a copy of this license, visit
+ * http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+ */
+
 package info.curtbinder.farmgame;
 
+import java.text.NumberFormat;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -10,8 +20,15 @@ import android.app.FragmentTransaction;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.ViewGroup;
 
+/**
+ * Created by binder on 2/26/14
+ */
 public class GameActivity extends Activity implements ActionBar.TabListener {
+
+    public static final String GAMEID = "gameid";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -27,10 +44,19 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    private Fragment[] frags;
+    private static final int MAX_FRAGS = 7;
 
     int[] fieldValues;
     String[] fieldTitles;
     String[] fieldSubTitles;
+    private long gameId;
+
+    public static String getCurrencyFormattedString(int value) {
+        NumberFormat nft = NumberFormat.getCurrencyInstance(Locale.getDefault());
+        nft.setMaximumFractionDigits(0);
+        return nft.format(value);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +66,11 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
         fieldValues = getResources().getIntArray(R.array.itemFieldValues);
         fieldTitles = getResources().getStringArray(R.array.itemTitles);
         fieldSubTitles = getResources().getStringArray(R.array.itemSubTitles);
+        Bundle b = getIntent().getExtras();
+        if ( b != null ) {
+            gameId = b.getLong(GAMEID);
+        }
+        frags = new Fragment[MAX_FRAGS];
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -52,6 +83,7 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+//        mViewPager.setOffscreenPageLimit(MAX_FRAGS);
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -74,6 +106,10 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+    }
+
+    public long getGameId() {
+        return gameId;
     }
 
     @Override
@@ -104,21 +140,32 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            if (position == 0) {
-                return SummaryFragment.newInstance();
-            } else {
-                return GameFragment.newInstance(position);
+            if ( frags[position] == null ) {
+                Log.d("GameActivity", "create fragment, position:" + position);
+                if (position == 0) {
+                    frags[position] = SummaryFragment.newInstance();
+                } else {
+                    frags[position] = GameFragment.newInstance(position);
+                }
             }
+            return frags[position];
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            // don't destroy the fragment since we are already saving them in an array
+//            super.destroyItem(container, position, object);
         }
 
         @Override
         public int getCount() {
             // 1 summary page, 6 player pages
-            return 7;
+            return MAX_FRAGS;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
+            // todo update to get title from the fragment
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
