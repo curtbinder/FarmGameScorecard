@@ -36,8 +36,6 @@ import info.curtbinder.farmgame.db.ScoreProvider;
  */
  public class GameFragment extends Fragment {
 
-    private static int NAME_INDEX = 100;
-
     private int playerId = 0;
 
     private int[] values = new int[Items.values().length];
@@ -55,14 +53,9 @@ import info.curtbinder.farmgame.db.ScoreProvider;
 
     public GameFragment(int playerId) {
         this.playerId = playerId;
-        //loadData();
     }
 
     private void loadData() {
-//        for ( int i = 0; i < values.length; i++ ) {
-//            values[i] = 0;
-//        }
-//        Log.d("Game", "loadData");
         Uri content = Uri.parse(ScoreProvider.CONTENT_URI + "/" +
                                 ScoreProvider.PATH_PLAYERS + "/" + playerId);
         Cursor c = getActivity().getContentResolver().query(content, null,
@@ -70,15 +63,10 @@ import info.curtbinder.farmgame.db.ScoreProvider;
                 new String[]{Long.toString(((GameActivity) getActivity()).getGameId())}, null);
         if ( c.moveToFirst() ) {
             for ( int i = 0; i < values.length; i++ ) {
-                // todo validate data loaded from db
                 int v = c.getInt(c.getColumnIndex(PlayersTable.getColumnFromIndex(i)));
-                Log.d("Game", "Player " + playerId +") Index: " + i + ", Column: " + PlayersTable.getColumnFromIndex(i)
-                        + ", Value: " + v);
                 values[i] = v;
             }
             name = c.getString(c.getColumnIndex(PlayersTable.COL_NAME));
-            Log.d("Game", "Player " + playerId +") Column: " + PlayersTable.COL_NAME
-                    + ", Value: " + name);
         }
         c.close();
     }
@@ -128,9 +116,17 @@ import info.curtbinder.farmgame.db.ScoreProvider;
                 editName.setText(name);
             }
         }
-        editName.addTextChangedListener(new TextChangeListener(NAME_INDEX));
+        editName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean bHasFocus) {
+                if ( !bHasFocus ) {
+                    // edit box has lost focus, let's update the name
+                    name = ((EditText)view).getText().toString();
+                    updatePlayerNameInTable();
+                }
+            }
+        });
         int pos = index.ordinal();
-//        Log.d("Game", "updateLabelsAndAddListener - itemIndex: " + pos);
         RelativeLayout l = (RelativeLayout) v.findViewById(fieldId);
         EditText t = (EditText) l.findViewById(R.id.editValue);
         String s = "";
@@ -146,7 +142,7 @@ import info.curtbinder.farmgame.db.ScoreProvider;
     }
 
     protected void updateDisplayAmount() {
-        Log.d("Game", "Player " + playerId + ") updateDisplayAmount");
+//        Log.d("Game", "Player " + playerId + ") updateDisplayAmount");
         int total = 0;
         for ( int i = 0; i < values.length; i++ ) {
             total += values[i];
@@ -170,7 +166,7 @@ import info.curtbinder.farmgame.db.ScoreProvider;
     }
 
     protected void updatePlayersTable(ContentValues cv) {
-        Log.d("Game", "Player " + playerId + ") updatePlayersTable: " + cv.toString());
+//        Log.d("Game", "Player " + playerId + ") updatePlayersTable: " + cv.toString());
         Uri uri = Uri.parse(ScoreProvider.CONTENT_URI + "/" +
                             ScoreProvider.PATH_PLAYERS);
         getActivity().getContentResolver().update(uri, cv,
@@ -183,13 +179,10 @@ import info.curtbinder.farmgame.db.ScoreProvider;
     private class TextChangeListener implements TextWatcher {
         private int index;
         private int fieldValue;
-        //private long fieldId;
 
         public TextChangeListener(int index) {
             this.index = index;
-            if ( index < NAME_INDEX ) {
-                this.fieldValue = ((GameActivity) getActivity()).fieldValues[index];
-            }
+            this.fieldValue = ((GameActivity) getActivity()).fieldValues[index];
         }
 
         @Override
@@ -205,17 +198,6 @@ import info.curtbinder.farmgame.db.ScoreProvider;
         @Override
         public void afterTextChanged(Editable editable) {
             String s = editable.toString();
-            if ( this.index == NAME_INDEX ) {
-//                Log.d("Game", index + ") Update Name: " + s);
-                name = s;
-                updatePlayerNameInTable();
-            } else {
-                updateItemValue(s);
-            }
-        }
-
-        private void updateItemValue(String s) {
-//            Log.d("Game", index + ") updateItemValue");
             int total = 0;
             if ( ! s.isEmpty() ) {
                 int qty = Integer.parseInt(s);
