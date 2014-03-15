@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 public class GameActivity extends Activity implements ActionBar.TabListener {
 
     public static final String GAMEID = "gameid";
+    public static final String GAMEDATE= "gamedate";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -53,6 +54,7 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
     String[] fieldTitles;
     String[] fieldSubTitles;
     private long gameId;
+    private String gameDate;
 
     public static String getCurrencyFormattedString(int value) {
         NumberFormat nft = NumberFormat.getCurrencyInstance(Locale.getDefault());
@@ -71,6 +73,7 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
         Bundle b = getIntent().getExtras();
         if ( b != null ) {
             gameId = b.getLong(GAMEID);
+            gameDate = b.getString(GAMEDATE);
         }
         frags = new Fragment[MAX_FRAGS];
 
@@ -85,7 +88,6 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-//        mViewPager.setOffscreenPageLimit(MAX_FRAGS);
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -108,6 +110,15 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+
+        setActivityTitle("");
+    }
+
+    private void setActivityTitle(String title) {
+        if ( title.isEmpty() ) {
+            title = gameDate;
+        }
+        setTitle(title);
     }
 
     public long getGameId() {

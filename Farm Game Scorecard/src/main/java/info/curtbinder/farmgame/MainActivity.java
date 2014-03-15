@@ -58,18 +58,24 @@ public class MainActivity extends Activity implements Button.OnClickListener {
         }
     }
 
-    private void startNewGame() {
-        long gameId = createNewGame();
-        addPlayersToGame(gameId);
-        // launch a new game, pass in gameid to the activity
-        launchNewGame(gameId);
+    private String getCurrentDate() {
+        return DateFormat.
+                getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
     }
 
-    private long createNewGame() {
+    private void startNewGame() {
+        String gameDate = getCurrentDate();
+        long gameId = createNewGame(gameDate);
+        addPlayersToGame(gameId);
+        // launch a new game, pass in gameid to the activity
+        launchNewGame(gameId, gameDate);
+    }
+
+    private long createNewGame(String gameDate) {
         // create new game in GamesTable with current date and time
         // return the gameID
         ContentValues cv = new ContentValues();
-        cv.put(GamesTable.COL_DATE, DateFormat.getDateInstance().format(new Date()));
+        cv.put(GamesTable.COL_DATE, gameDate);
         Uri newGameUri = getContentResolver().insert(
                 Uri.parse(ScoreProvider.CONTENT_URI + "/" + ScoreProvider.PATH_GAMES),
                 cv);
@@ -82,9 +88,10 @@ public class MainActivity extends Activity implements Button.OnClickListener {
         // insert 6 players into PlayersTable with default values
     }
 
-    private void launchNewGame(long gameId) {
+    private void launchNewGame(long gameId, String gameDate) {
         Intent i = new Intent(MainActivity.this, GameActivity.class);
         i.putExtra(GameActivity.GAMEID, gameId);
+        i.putExtra(GameActivity.GAMEDATE, gameDate);
         startActivity(i);
     }
 
