@@ -121,7 +121,12 @@ import info.curtbinder.farmgame.db.ScoreProvider;
             public void onFocusChange(View view, boolean bHasFocus) {
                 if ( !bHasFocus ) {
                     // edit box has lost focus, let's update the name
-                    name = ((EditText)view).getText().toString();
+                    String s = ((EditText)view).getText().toString();
+                    if ( s.equals(name) ) {
+                        // same name, don't bother updating
+                        return;
+                    }
+                    name = s;
                     updatePlayerNameInTable();
                 }
             }
