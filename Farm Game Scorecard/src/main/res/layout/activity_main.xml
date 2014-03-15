@@ -21,9 +21,22 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Game"
+        android:text="@string/label_new_game"
         android:id="@+id/buttonNewGame"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:onClick="onClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_history"
+        android:id="@+id/buttonHistory"
+        android:layout_below="@+id/buttonNewGame"
+        android:layout_alignRight="@+id/buttonNewGame"
+        android:layout_alignEnd="@+id/buttonNewGame"
+        android:layout_marginTop="47dp"
+        android:layout_alignLeft="@+id/buttonNewGame"
+        android:layout_alignStart="@+id/buttonNewGame"
         android:onClick="onClick" />
 </RelativeLayout>

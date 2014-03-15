@@ -19,7 +19,10 @@
 
     <string name="title_summary">Summary</string>
     <string name="title_player_format">Player %1$d</string>
+    <string name="title_load_game">Load Game</string>
 
+    <string name="label_new_game">New Game</string>
+    <string name="label_history">History</string>
     <string name="label_name">Name:</string>
     <string name="label_total">Total:</string>
     <string name="label_name_hint">Enter Player Name</string>
@@ -27,8 +30,10 @@
     <string name="label_yes">Yes</string>
     <string name="label_no">No</string>
     <string name="label_cancel">Cancel</string>
+    <string name="label_no_games">No games created</string>
 
     <string name="message_prompt_delete">Delete this game?</string>
     <string name="message_prompt_rename">New name:</string>
+    <string name="message_prompt_delete_all">Delete all games?</string>
 
 </resources>

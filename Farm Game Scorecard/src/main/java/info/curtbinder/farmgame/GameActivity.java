@@ -45,6 +45,7 @@ public class GameActivity extends Activity implements ActionBar.TabListener,
 
     public static final String GAMEID = "gameid";
     public static final String GAMEDATE= "gamedate";
+    public static final String GAMENAME = "gamename";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -68,6 +69,7 @@ public class GameActivity extends Activity implements ActionBar.TabListener,
     String[] fieldSubTitles;
     private long gameId;
     private String gameDate;
+    private String gameName = "";
 
     public static String getCurrencyFormattedString(int value) {
         NumberFormat nft = NumberFormat.getCurrencyInstance(Locale.getDefault());
@@ -87,6 +89,7 @@ public class GameActivity extends Activity implements ActionBar.TabListener,
         if ( b != null ) {
             gameId = b.getLong(GAMEID);
             gameDate = b.getString(GAMEDATE);
+            gameName = b.getString(GAMENAME);
         }
         frags = new Fragment[MAX_FRAGS];
 
@@ -124,7 +127,7 @@ public class GameActivity extends Activity implements ActionBar.TabListener,
                             .setTabListener(this));
         }
 
-        setActivityTitle("");
+        setActivityTitle(gameName);
     }
 
     private void setActivityTitle(String title) {
@@ -198,7 +201,6 @@ public class GameActivity extends Activity implements ActionBar.TabListener,
         setActivityTitle(newName);
         ContentValues cv = new ContentValues();
         cv.put(GamesTable.COL_NAME, newName);
-        Log.d("GameActivity", "DialogRenameClick: " + cv.toString());
         getContentResolver().update(uri, cv,
                 GamesTable.COL_ID + "=?",
                 new String[]{Long.toString(gameId)});
