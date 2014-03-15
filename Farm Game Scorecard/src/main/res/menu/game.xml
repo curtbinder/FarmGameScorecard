@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2014 by Curt Binder (http://curtbinder.info)
+  ~
+  ~ This work is licensed under the Creative Commons
+  ~ Attribution-ShareAlike 4.0 International License.
+  ~ To view a copy of this license, visit
+  ~ http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_rename"
+        android:title="@string/action_rename"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item android:id="@+id/action_delete"
+        android:title="@string/action_delete"
+        android:orderInCategory="200"
+        android:showAsAction="never" />
+</menu>

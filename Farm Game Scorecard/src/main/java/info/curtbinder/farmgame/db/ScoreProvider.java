@@ -133,42 +133,15 @@ public class ScoreProvider extends ContentProvider {
     private ContentValues getDefaultPlayerValues(long gameId, int id) {
         ContentValues cv = new ContentValues();
         cv.put(PlayersTable.COL_GAMEID, gameId);
-        //cv.put(PlayersTable.COL_NAME, String.format(Locale.getDefault(),
-        //                            getContext().getString(R.string.title_player_format),
-        //                            id));
-
         cv.put(PlayersTable.COL_PLAYERID, id);
         cv.put(PlayersTable.COL_TOTAL, 0);
-        /*
-        cv.put(PlayersTable.COL_HAY, 0);
-        cv.put(PlayersTable.COL_GRAIN, 0);
-        cv.put(PlayersTable.COL_FRUIT, 0);
-        cv.put(PlayersTable.COL_LIVESTOCK, 0);
-        cv.put(PlayersTable.COL_TRACTOR, 0);
-        cv.put(PlayersTable.COL_HARVESTOR, 0);
-        cv.put(PlayersTable.COL_TOPPENISH, 0);
-        cv.put(PlayersTable.COL_CASCADE, 0);
-        cv.put(PlayersTable.COL_RATTLESNAKE, 0);
-        cv.put(PlayersTable.COL_AHTANUM, 0);
-        cv.put(PlayersTable.COL_FRUIT, 0);
-        cv.put(PlayersTable.COL_P10K, 0);
-        cv.put(PlayersTable.COL_P5K, 0);
-        cv.put(PlayersTable.COL_P1K, 0);
-        cv.put(PlayersTable.COL_10000, 0);
-        cv.put(PlayersTable.COL_5000, 0);
-        cv.put(PlayersTable.COL_1000, 0);
-        cv.put(PlayersTable.COL_500, 0);
-        cv.put(PlayersTable.COL_100, 0);
-        */
         return cv;
     }
 
     private void insertGamePlayers(SQLiteDatabase db, long gameId) {
-        //db.beginTransaction();
         for ( int i = 0; i < 6; i++ ) {
             db.insert(PlayersTable.TABLE_NAME, null, getDefaultPlayerValues(gameId, i+1));
         }
-        //db.endTransaction();
     }
 
     @Override
@@ -222,6 +195,10 @@ public class ScoreProvider extends ContentProvider {
         switch ( sUriMatcher.match(uri) ) {
             case CODE_PLAYERS:
                 rowsUpdated = db.update(PlayersTable.TABLE_NAME, values,
+                        selection, selectionArgs);
+                break;
+            case CODE_GAMES:
+                rowsUpdated = db.update(GamesTable.TABLE_NAME, values,
                         selection, selectionArgs);
                 break;
             default:

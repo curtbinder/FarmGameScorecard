@@ -14,21 +14,34 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewGroup;
+
+import info.curtbinder.farmgame.db.GamesTable;
+import info.curtbinder.farmgame.db.PlayersTable;
+import info.curtbinder.farmgame.db.ScoreProvider;
 
 /**
  * Created by binder on 2/26/14
  */
-public class GameActivity extends Activity implements ActionBar.TabListener {
+public class GameActivity extends Activity implements ActionBar.TabListener,
+        RenameDialogFragment.RenameDialogListener {
 
     public static final String GAMEID = "gameid";
     public static final String GAMEDATE= "gamedate";
@@ -146,6 +159,102 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.game, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        switch ( id ) {
+            case R.id.action_rename:
+                promptToRenameGame();
+                break;
+            case R.id.action_delete:
+                promptToDeleteGame();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+    private void promptToRenameGame() {
+        DialogFragment dlg = new RenameDialogFragment();
+        dlg.show(getFragmentManager(), "RenameDialogFragment");
+    }
+
+    @Override
+    public void onDialogRenameClick(DialogFragment dlg) {
+        Uri uri = Uri.parse(ScoreProvider.CONTENT_URI + "/" +
+                ScoreProvider.PATH_GAMES);
+        String newName = ((RenameDialogFragment) dlg).getNewName();
+        setActivityTitle(newName);
+        ContentValues cv = new ContentValues();
+        cv.put(GamesTable.COL_NAME, newName);
+        Log.d("GameActivity", "DialogRenameClick: " + cv.toString());
+        getContentResolver().update(uri, cv,
+                GamesTable.COL_ID + "=?",
+                new String[]{Long.toString(gameId)});
+    }
+
+    private void promptToDeleteGame() {
+        // display alert prompting to delete game
+        // if user chooses YES,
+        //      finish activity
+        //      delete all player entries for game id from players table
+        //      delete the game from the games table
+        // if user chooses NO,
+        //      just return
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.message_prompt_delete);
+        builder.setNegativeButton(R.string.label_no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.setPositiveButton(R.string.label_yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                deleteGame();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    protected void deleteGame() {
+        // delete the current game
+        /*
+        String sGameWhere = GamesTable.COL_ID + "=?";
+        String[] sWhereCond = { Long.toString(gameId) };
+        String sPlayersWhere = PlayersTable.COL_GAMEID + "=?";
+        Uri uri_game =
+                Uri.parse( ScoreProvider.CONTENT_URI + "/"
+                        + ScoreProvider.PATH_GAMES );
+        Uri uri_players =
+                Uri.parse( ScoreProvider.CONTENT_URI + "/"
+                        + ScoreProvider.PATH_PLAYERS );
+        getContentResolver().delete( uri_game, sGameWhere, sWhereCond );
+        getContentResolver().delete( uri_players, sPlayersWhere, sWhereCond );
+        */
+        // just delete the game, the provider handles deleting the data from both tables
+        Uri uri =
+                Uri.parse( ScoreProvider.CONTENT_URI + "/"
+                        + ScoreProvider.PATH_GAMES + "/"
+                        + Long.toString(gameId));
+        getContentResolver().delete( uri, null, null );
+        finish();
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -160,7 +269,6 @@ public class GameActivity extends Activity implements ActionBar.TabListener {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             if ( frags[position] == null ) {
-                Log.d("GameActivity", "create fragment, position:" + position);
                 if (position == 0) {
                     frags[position] = SummaryFragment.newInstance();
                 } else {

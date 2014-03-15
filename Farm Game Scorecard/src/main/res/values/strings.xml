@@ -12,12 +12,23 @@
 
     <string name="app_name">Farm Game Scorecard</string>
     <string name="activity_game">Scorecard</string>
+
     <string name="action_settings">Settings</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_delete">Delete</string>
+
     <string name="title_summary">Summary</string>
     <string name="title_player_format">Player %1$d</string>
+
     <string name="label_name">Name:</string>
     <string name="label_total">Total:</string>
     <string name="label_name_hint">Enter Player Name</string>
     <string name="label_no_player_scores">No scores posted yet.\n\nUpdate the scores on the Players tabs.</string>
+    <string name="label_yes">Yes</string>
+    <string name="label_no">No</string>
+    <string name="label_cancel">Cancel</string>
+
+    <string name="message_prompt_delete">Delete this game?</string>
+    <string name="message_prompt_rename">New name:</string>
 
 </resources>
