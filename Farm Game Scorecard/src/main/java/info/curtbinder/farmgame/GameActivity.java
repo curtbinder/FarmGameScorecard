@@ -148,31 +148,37 @@ public class GameActivity extends Activity implements ActionBar.TabListener,
 
     public class PlayMusicBackground extends AsyncTask<Void, Void, Void> {
 
+        private final String TAG = PlayMusicBackground.class.getSimpleName();
+        boolean fDone;
+
         @Override
         protected Void doInBackground(Void... voids) {
             MediaPlayer mp = new MediaPlayer();
+            fDone = false;
             try {
                 FileInputStream mp3Stream = getAssets().openFd("cow_moo.mp3").createInputStream();
                 mp.setDataSource(mp3Stream.getFD());
                 mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
-                        Thread.currentThread().interrupt();
+                        fDone = true;
                     }
                 });
                 mp.setLooping(false);
                 mp.prepare();
                 mp.start();
-                do {
+                while ( !fDone ) {
                     Thread.sleep(500);
-                } while ( true );
+                }
+                mp3Stream.close();
             } catch (IllegalArgumentException e) {
-                Log.d("PlaySounds", "IllegalArgument. " + e.getMessage());
+                Log.d(TAG, "IllegalArgument. " + e.getMessage());
             } catch (IllegalStateException e) {
-                Log.d("PlaySounds", "IllegalState. " + e.getMessage());
+                Log.d(TAG, "IllegalState. " + e.getMessage());
             } catch (IOException e) {
-                Log.d("PlaySounds", "IOException. " + e.getMessage());
+                Log.d(TAG, "IOException. " + e.getMessage());
             } catch (InterruptedException e) {
+                Log.d(TAG, "Interrupted Thread");
             }
             if ( mp != null ) {
                 mp.release();
