@@ -10,7 +10,6 @@
 package info.curtbinder.farmgame.db;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 /**
  * Created by binder on 2/26/14.

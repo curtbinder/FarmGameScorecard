@@ -9,7 +9,6 @@
 
 package info.curtbinder.farmgame;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -17,16 +16,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import java.text.NumberFormat;
-import java.util.Locale;
 
 import info.curtbinder.farmgame.db.PlayersTable;
 import info.curtbinder.farmgame.db.ScoreProvider;

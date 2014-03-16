@@ -20,7 +20,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,8 +29,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-
-import java.util.List;
 
 import info.curtbinder.farmgame.db.GamesTable;
 import info.curtbinder.farmgame.db.ScoreProvider;

@@ -18,11 +18,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
-import java.sql.SQLException;
-import java.util.Locale;
-
-import info.curtbinder.farmgame.R;
-
 /**
  * Created by binder on 2/26/14
  */
