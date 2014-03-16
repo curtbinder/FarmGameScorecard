@@ -7,5 +7,6 @@ It allows for up to 6 players to be tracked (the same as the board game). It als
 of your game scores so you can look back on previous games.
 <br>
 <p>The Farming Game is copyright 1993, 2002 The Weekend Farmer Co.
+<p>Cow Moo sound was created by Mike Koenig and used under the Attribution 3.0 license.
 </body>
 </html>

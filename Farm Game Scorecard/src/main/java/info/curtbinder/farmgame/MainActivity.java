@@ -17,7 +17,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +31,8 @@ import info.curtbinder.farmgame.db.ScoreProvider;
 /**
  * Created by binder on 2/26/14
  */
-public class MainActivity extends Activity implements Button.OnClickListener,
+public class MainActivity extends Activity implements
+        Button.OnClickListener,
         LoadGameDialogFragment.LoadGameDialogListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -53,7 +53,7 @@ public class MainActivity extends Activity implements Button.OnClickListener,
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        switch ( id ) {
+        switch (id) {
             case R.id.buttonNewGame:
                 startNewGame();
                 break;
@@ -115,9 +115,9 @@ public class MainActivity extends Activity implements Button.OnClickListener,
     @Override
     public void onDialogLoadGameDeleteGames() {
         Uri uri =
-                Uri.parse( ScoreProvider.CONTENT_URI + "/"
+                Uri.parse(ScoreProvider.CONTENT_URI + "/"
                         + ScoreProvider.PATH_GAMES);
-        getContentResolver().delete( uri, null, null );
+        getContentResolver().delete(uri, null, null);
     }
 
     @Override
@@ -140,5 +140,4 @@ public class MainActivity extends Activity implements Button.OnClickListener,
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

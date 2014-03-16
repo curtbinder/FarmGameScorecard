@@ -9,13 +9,9 @@
 
 package info.curtbinder.farmgame;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -24,17 +20,23 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.media.MediaPlayer;
 import android.net.Uri;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import info.curtbinder.farmgame.db.GamesTable;
-import info.curtbinder.farmgame.db.PlayersTable;
 import info.curtbinder.farmgame.db.ScoreProvider;
 
 /**
@@ -82,6 +84,8 @@ public class GameActivity extends Activity implements ActionBar.TabListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        new PlayMusicBackground().execute();
+
         fieldValues = getResources().getIntArray(R.array.itemFieldValues);
         fieldTitles = getResources().getStringArray(R.array.itemTitles);
         fieldSubTitles = getResources().getStringArray(R.array.itemSubTitles);
@@ -128,6 +132,7 @@ public class GameActivity extends Activity implements ActionBar.TabListener,
         }
 
         setActivityTitle(gameName);
+
     }
 
     private void setActivityTitle(String title) {
@@ -139,6 +144,41 @@ public class GameActivity extends Activity implements ActionBar.TabListener,
 
     public long getGameId() {
         return gameId;
+    }
+
+    public class PlayMusicBackground extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            MediaPlayer mp = new MediaPlayer();
+            try {
+                FileInputStream mp3Stream = getAssets().openFd("cow_moo.mp3").createInputStream();
+                mp.setDataSource(mp3Stream.getFD());
+                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        Thread.currentThread().interrupt();
+                    }
+                });
+                mp.setLooping(false);
+                mp.prepare();
+                mp.start();
+                do {
+                    Thread.sleep(500);
+                } while ( true );
+            } catch (IllegalArgumentException e) {
+                Log.d("PlaySounds", "IllegalArgument. " + e.getMessage());
+            } catch (IllegalStateException e) {
+                Log.d("PlaySounds", "IllegalState. " + e.getMessage());
+            } catch (IOException e) {
+                Log.d("PlaySounds", "IOException. " + e.getMessage());
+            } catch (InterruptedException e) {
+            }
+            if ( mp != null ) {
+                mp.release();
+            }
+            return null;
+        }
     }
 
     @Override

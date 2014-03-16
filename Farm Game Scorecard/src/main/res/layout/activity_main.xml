@@ -39,4 +39,5 @@
         android:layout_alignLeft="@+id/buttonNewGame"
         android:layout_alignStart="@+id/buttonNewGame"
         android:onClick="onClick" />
+
 </RelativeLayout>
