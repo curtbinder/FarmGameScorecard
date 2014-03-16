@@ -1,0 +1,11 @@
+<html>
+<body>
+<h1>Farm Game Scorecard</h1>
+<p>The Farm Game Scorecard is designed to help score your Farm Game. It totals up your value from
+the board game "The Farming Game." You enter in your values and it computes your score for you.
+It allows for up to 6 players to be tracked (the same as the board game). It also keeps a history
+of your game scores so you can look back on previous games.
+<br>
+<p>The Farming Game is copyright 1993, 2002 The Weekend Farmer Co.
+</body>
+</html>
