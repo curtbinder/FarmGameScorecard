@@ -73,12 +73,12 @@ public class MainActivity extends Activity implements
     private void startNewGame() {
         String gameDate = getCurrentDate();
         long gameId = createNewGame(gameDate);
-        // launch a new game, pass in gameid to the activity
+        // launch a new_shadow game, pass in gameid to the activity
         launchGame(gameId, gameDate, "");
     }
 
     private long createNewGame(String gameDate) {
-        // create new game in GamesTable with current date and time
+        // create new_shadow game in GamesTable with current date and time
         // return the gameID
         ContentValues cv = new ContentValues();
         cv.put(GamesTable.COL_DATE, gameDate);
@@ -104,7 +104,7 @@ public class MainActivity extends Activity implements
 
     @Override
     public void onDialogLoadGameClick(DialogFragment dlg) {
-        // launch the game with the gameId and gameDate from the history
+        // launch the game with the gameId and gameDate from the history_text
         dlg.dismiss();
         long gameId = ((LoadGameDialogFragment) dlg).getGameId();
         String gameDate = ((LoadGameDialogFragment) dlg).getGameDate();

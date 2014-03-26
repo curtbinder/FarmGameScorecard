@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2014 by Curt Binder (http://curtbinder.info)
+  ~
+  ~ This work is licensed under the Creative Commons
+  ~ Attribution-ShareAlike 4.0 International License.
+  ~ To view a copy of this license, visit
+  ~ http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/history_shadow"
+        android:state_pressed="true" />
+    <item android:drawable="@drawable/history_shadow"
+        android:state_pressed="true" />
+    <item android:drawable="@drawable/history_text" />
+</selector>

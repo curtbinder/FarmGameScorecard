@@ -72,7 +72,7 @@ public class PlayersTable {
             SQLiteDatabase db,
             int oldVersion,
             int newVersion ) {
-        // initially, just drop tables and create new ones
+        // initially, just drop tables and create new_shadow ones
         dropTable( db );
         onCreate( db );
     }

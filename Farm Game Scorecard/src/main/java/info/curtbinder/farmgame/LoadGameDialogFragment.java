@@ -138,7 +138,7 @@ public class LoadGameDialogFragment extends DialogFragment implements
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // prompt to delete the history
+                // prompt to delete the history_text
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage(R.string.message_prompt_delete_all);
                 builder.setNegativeButton(R.string.label_no, new DialogInterface.OnClickListener() {

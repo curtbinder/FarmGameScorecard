@@ -39,7 +39,7 @@ import info.curtbinder.farmgame.db.ScoreProvider;
     private EditText editName;
 
     /**
-     * Returns a new instance of this fragment for the given section
+     * Returns a new_shadow instance of this fragment for the given section
      * number.
      */
     public static GameFragment newInstance(int sectionNumber) {
