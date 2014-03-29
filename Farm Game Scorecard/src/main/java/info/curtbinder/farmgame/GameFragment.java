@@ -32,6 +32,7 @@ import info.curtbinder.farmgame.db.ScoreProvider;
  public class GameFragment extends Fragment {
 
     private int playerId = 0;
+    private static final String PLAYERID = "playerid";
 
     private int[] values = new int[Items.values().length];
     private String name;
@@ -43,11 +44,11 @@ import info.curtbinder.farmgame.db.ScoreProvider;
      * number.
      */
     public static GameFragment newInstance(int sectionNumber) {
-        return new GameFragment(sectionNumber);
-    }
-
-    public GameFragment(int playerId) {
-        this.playerId = playerId;
+        GameFragment f = new GameFragment();
+        Bundle args = new Bundle();
+        args.putInt(PLAYERID, sectionNumber);
+        f.setArguments(args);
+        return f;
     }
 
     private void loadData() {
@@ -69,6 +70,7 @@ import info.curtbinder.farmgame.db.ScoreProvider;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        playerId = getArguments().getInt(PLAYERID, 0);
         View rootView = inflater.inflate(R.layout.fragment_game, container, false);
         // do something with the layout
         loadData();
