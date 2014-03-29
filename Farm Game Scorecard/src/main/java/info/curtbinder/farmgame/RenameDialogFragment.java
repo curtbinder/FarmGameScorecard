@@ -59,7 +59,7 @@ public class RenameDialogFragment extends DialogFragment {
                 mListener.onDialogRenameClick(RenameDialogFragment.this);
             }
         });
-        builder.setNegativeButton(R.string.label_cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 //dialog.cancel();
                 RenameDialogFragment.this.getDialog().cancel();
