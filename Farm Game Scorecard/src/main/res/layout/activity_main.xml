@@ -23,18 +23,17 @@
         android:layout_height="wrap_content"
         android:text="@string/label_new_game"
         android:id="@+id/buttonNewGame"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:onClick="onClick"
         android:visibility="visible"
-        android:background="@drawable/new_button" />
+        android:background="@drawable/new_button"
+        android:layout_below="@+id/imageCherries"
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/label_history"
         android:id="@+id/buttonHistory"
-        android:layout_marginTop="50dp"
         android:onClick="onClick"
         android:background="@drawable/history_button"
         android:layout_below="@+id/buttonNewGame"
@@ -43,9 +42,55 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
+        android:id="@+id/imageTitle"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/logo" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageCorn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/cornstalk" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageCherries"
+        android:background="@drawable/cherries"
+        android:layout_below="@+id/imageTitle"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageHay"
+        android:layout_alignBottom="@+id/imageCorn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/haybale" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageCow"
+        android:background="@drawable/cow"
+        android:layout_below="@+id/imageTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonInfo"
+        android:background="@drawable/info"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="onClick" />
 
 </RelativeLayout>
