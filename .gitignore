@@ -1,6 +1,10 @@
 .gradle
 /local.properties
 /.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/dataSources.ids
+/.idea/datasources.xml
+/.idea/libraries/*.xml
 .DS_Store
 bin/
 gen/
