@@ -24,6 +24,10 @@
   ~ SOFTWARE.
   -->
 
+<!--Since I'm using this in a CursorLoader, I chose not to change the resource ID. I left it be-->
+<!--the default @android:id/android:list id for simplicity. My layout only contains the list, so-->
+<!--this seemed appropriate for me. Also, I had to update the card:list_card_layout_resourceID to-->
+<!--reference my own list card layout in order for the cards to display properly.-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"

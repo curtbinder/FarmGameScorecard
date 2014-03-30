@@ -24,6 +24,11 @@
   ~ SOFTWARE.
   -->
 
+<!--This item is only needed for use within a CardListView. It indicates what-->
+<!--card is to be used for drawing the individual cards. This was copied verbatim-->
+<!--from @layout/list_card_thubmnail_layout in the library source folder.-->
+<!--The only thing that was changed was the card:card_layout_resourceID to-->
+<!--reference my custom card layout.-->
 <it.gmariotti.cardslib.library.view.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card="http://schemas.android.com/apk/res-auto"

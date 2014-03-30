@@ -296,19 +296,6 @@ public class GameActivity extends Activity implements ActionBar.TabListener,
 
     protected void deleteGame() {
         // delete the current game
-        /*
-        String sGameWhere = GamesTable.COL_ID + "=?";
-        String[] sWhereCond = { Long.toString(gameId) };
-        String sPlayersWhere = PlayersTable.COL_GAMEID + "=?";
-        Uri uri_game =
-                Uri.parse( ScoreProvider.CONTENT_URI + "/"
-                        + ScoreProvider.PATH_GAMES );
-        Uri uri_players =
-                Uri.parse( ScoreProvider.CONTENT_URI + "/"
-                        + ScoreProvider.PATH_PLAYERS );
-        getContentResolver().delete( uri_game, sGameWhere, sWhereCond );
-        getContentResolver().delete( uri_players, sPlayersWhere, sWhereCond );
-        */
         // just delete the game, the provider handles deleting the data from both tables
         Uri uri =
                 Uri.parse( ScoreProvider.CONTENT_URI + "/"

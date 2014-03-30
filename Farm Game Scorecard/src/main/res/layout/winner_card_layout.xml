@@ -44,6 +44,8 @@
 
         <!-- Compound view for Header Card
              If you want to customize this element use attr card:card_header_layout_resourceID-->
+        <!--Updated this component to use my custom header layout.
+            changed card:card_header_layout_resourceID to use my own layout.-->
         <it.gmariotti.cardslib.library.view.component.CardHeaderView
             style="@style/card.header_outer_layout"
             android:id="@+id/card_header_layout"
@@ -82,4 +84,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <!--Removed the Expand frame since it is not used-->
 </LinearLayout>

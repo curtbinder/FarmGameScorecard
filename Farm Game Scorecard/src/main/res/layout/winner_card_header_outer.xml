@@ -24,6 +24,9 @@
   ~ SOFTWARE.
   -->
 
+<!--This is the outer layout for the card header-->
+<!--This file was copied from @res/values/base_header_layout from the library
+    and then modified as indicated below-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

@@ -70,9 +70,7 @@ public class About {
         BufferedReader in = null;
         StringBuilder buf;
         try {
-            in =
-                    new BufferedReader(new InputStreamReader(a.getAssets()
-                            .open(ASSET_ABOUT)));
+            in = new BufferedReader(new InputStreamReader(a.getAssets().open(ASSET_ABOUT)));
             buf = new StringBuilder(8192);
             String line;
             while ((line = in.readLine()) != null)

@@ -25,9 +25,6 @@
 package info.curtbinder.farmgame;
 
 import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import it.gmariotti.cardslib.library.internal.CardHeader;
 
@@ -40,6 +37,10 @@ public class WinnerHeader extends CardHeader {
         super(context, R.layout.winner_card_header_inner);
     }
 
+    // Since the header will not change, there's no reason to perform extra function calls
+    // The text is hard coded in the layout with a string resource.
+    // The text could easily be updated using this function call and then removing the value
+    // from the layout.
 //    @Override
 //    public void setupInnerViewElements(ViewGroup parent, View view) {
 //        if ( view != null ) {

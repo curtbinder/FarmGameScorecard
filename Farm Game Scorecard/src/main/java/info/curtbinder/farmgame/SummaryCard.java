@@ -40,6 +40,7 @@ public class SummaryCard extends Card {
     protected TextView tvSubTitle;
     protected TextView tvValue;
 
+    // Public values to be set with each card
     public String title;
     public String subTitle;
     public String value;
@@ -54,6 +55,8 @@ public class SummaryCard extends Card {
 
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
+        // This function is called by the library to update and set the values from the
+        // strings to the text of the TextViews
         tvTitle = (TextView) parent.findViewById(R.id.textTitle);
         tvSubTitle = (TextView) parent.findViewById(R.id.textSubTitle);
         tvValue = (TextView) parent.findViewById(R.id.textValue);

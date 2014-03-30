@@ -30,7 +30,6 @@ import android.database.Cursor;
 import info.curtbinder.farmgame.db.PlayersTable;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardCursorAdapter;
-import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.internal.CardThumbnail;
 
 /**
@@ -48,6 +47,9 @@ public class SummaryListCardCursorAdapter extends CardCursorAdapter {
 
     @Override
     protected Card getCardFromCursor(Cursor cursor) {
+        // Create a new card
+        // Update the card values from the cursor
+        // Return the card
         SummaryCard card = new SummaryCard(super.getContext());
         if ( cursor.getPosition() == 0 ) {
             // The first card is the winner, so we add in the header and thumbnail
@@ -62,6 +64,7 @@ public class SummaryListCardCursorAdapter extends CardCursorAdapter {
     }
 
     private void setCardFromCursor(SummaryCard card, Cursor c) {
+        // pull the values from the database
         int total = c.getInt(c.getColumnIndex(PlayersTable.COL_TOTAL));
         int playerId = c.getInt(c.getColumnIndex(PlayersTable.COL_PLAYERID));
         String name = c.getString(c.getColumnIndex(PlayersTable.COL_NAME));
@@ -69,6 +72,7 @@ public class SummaryListCardCursorAdapter extends CardCursorAdapter {
         if ( name == null ) {
             name = defaultName;
         }
+        // set the values in the card to be updated for display in the setupInnerViewElements function
         card.title = name;
         card.subTitle = defaultName;
         card.value = GameActivity.getCurrencyFormattedString(total);

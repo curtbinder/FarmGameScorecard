@@ -31,7 +31,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,6 @@ import android.widget.ListAdapter;
 
 import info.curtbinder.farmgame.db.PlayersTable;
 import info.curtbinder.farmgame.db.ScoreProvider;
-import it.gmariotti.cardslib.library.internal.CardHeader;
 
 /**
  * Created by binder on 2/26/14
