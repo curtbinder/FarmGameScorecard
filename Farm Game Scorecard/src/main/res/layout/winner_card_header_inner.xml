@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2014 by Curt Binder (http://curtbinder.info)
+  ~
+  ~ This work is licensed under the Creative Commons
+  ~ Attribution-ShareAlike 4.0 International License.
+  ~ To view a copy of this license, visit
+  ~ http://creativecommons.org/licenses/by-sa/4.0/deed.en_US
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="#53c264">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/label_winner"
+        android:id="@+id/textHeaderTitle" />
+</LinearLayout>

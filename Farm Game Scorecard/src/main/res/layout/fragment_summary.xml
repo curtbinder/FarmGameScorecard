@@ -10,14 +10,16 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
+    <it.gmariotti.cardslib.library.view.CardListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@android:id/android:list"
-        android:layout_gravity="center_horizontal" />
+        card:list_card_layout_resourceID="@layout/winner_list_card_layout"
+        android:id="@android:id/android:list" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

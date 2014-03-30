@@ -32,6 +32,7 @@
     <string name="label_no">No</string>
     <string name="label_no_games">No games created</string>
     <string name="label_close">Close</string>
+    <string name="label_winner">TOP FARMER</string>
 
     <string name="message_prompt_delete">Delete this game?</string>
     <string name="message_prompt_rename">New name:</string>

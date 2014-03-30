@@ -16,6 +16,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import android.widget.ListAdapter;
 
 import info.curtbinder.farmgame.db.PlayersTable;
 import info.curtbinder.farmgame.db.ScoreProvider;
+import it.gmariotti.cardslib.library.internal.CardHeader;
 
 /**
  * Created by binder on 2/26/14
@@ -75,7 +77,7 @@ import info.curtbinder.farmgame.db.ScoreProvider;
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         ListAdapter adapter = getListAdapter();
         if ( adapter == null || !(adapter instanceof CursorAdapter ) ) {
-            adapter = new SummaryListCursorAdapter(getActivity(), cursor, 0);
+            adapter = new SummaryListCardCursorAdapter(getActivity(), cursor, 0);
             setListAdapter(adapter);
         } else {
             ((CursorAdapter) adapter).swapCursor(cursor);
