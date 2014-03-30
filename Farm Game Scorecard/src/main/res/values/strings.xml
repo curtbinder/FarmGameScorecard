@@ -32,6 +32,7 @@
     <string name="action_rename">Rename</string>
     <string name="action_delete">Delete</string>
     <string name="action_about">About</string>
+    <string name="action_screenshot">Screenshot</string>
 
     <string name="title_summary">Summary</string>
     <string name="title_player_format">Player %1$d</string>
