@@ -8,6 +8,7 @@
 .DS_Store
 bin/
 gen/
+build/
 *.apk
 *.ap_
 *.class
